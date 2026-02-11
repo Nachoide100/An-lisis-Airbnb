@@ -168,4 +168,4 @@ Espero que mi amigo disfrute sus vacaciones!
 
 *Autor:* José Ignacio Rubio
 
-*Contacto:* [https://www.linkedin.com/in/jos%C3%A9-ignacio-rubio-194471308/]
+*Contacto:* [Perfil Linkledin](https://www.linkedin.com/in/jos%C3%A9-ignacio-rubio-194471308/)
