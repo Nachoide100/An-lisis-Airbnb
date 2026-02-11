@@ -1,9 +1,12 @@
 # 🏠 Airbnb Price Analysis & Machine Learning Pipeline
 
-## 📋 Descripción del Proyecto
-Este proyecto analiza el mercado de alquiler vacacional (Airbnb) para identificar oportunidades de inversión y determinar el "precio justo" de mercado. Se ha desarrollado un flujo de trabajo completo (ETL) que va desde la limpieza de datos crudos hasta la implementación de un modelo de Machine Learning (Random Forest) y la visualización interactiva en Power BI.
+## 💡 Motivación del Proyecto: ¿Data Science para unas Vacaciones?
 
-El objetivo final es detectar activos infravalorados ("chollos") y entender qué características (ubicación, extras, capacidad) influyen más en el precio.
+**El problema:** Un amigo tiene un viaje planeado a Barcelona en dos semanas. Al buscar alojamiento en Airbnb, se encontró con un mar de datos: miles de opciones, precios muy dispares para pisos similares y la eterna duda: *"¿Es esto una buena oferta o me están cobrando de más por ser turista?"*.
+
+**La solución:** Me preguntó si podría pensar en algo para tomar una decisión basada en los datos. 
+Construí un pipeline completo de Machine Learning para "hackear" mi búsqueda de alojamiento. El objetivo no era solo encontrar un sitio, sino desarrollar un modelo capaz de decirme el **precio justo** de cualquier propiedad basándose en sus características (ubicación, extras, tamaño) e identificar matemáticamente las **oportunidades de mercado (chollos)** que el ojo humano pasa por alto.
+
 
 ## 🛠️ Tech Stack
 * **Lenguaje:** Python 3.9+
@@ -110,6 +113,8 @@ Análisis de qué factores influyen en el precio (Impacto de la distancia al cen
 
 ![informe2](https://github.com/Nachoide100/An-lisis-Airbnb/blob/64495816b5fb1861f93160b050cf3b52daf1b3cc/visualizations/Captura%20de%20pantalla%202026-02-11%20100154.png)
 
+*Enlace para descargar el informe interactivo* -> [Informe](https://drive.google.com/file/d/1E45f9VDB352jjaxyWNUOr8qqnrM6hEaO/view?usp=drive_link)
+
 #### 🧮 Métricas DAX Implementadas
 Se crearon medidas y columnas calculadas para enriquecer la visualización:
 
@@ -147,3 +152,20 @@ VAR Denominador = SQRT(
 RETURN
 DIVIDE(Numerador, Denominador)
 ```
+---
+
+## 🏁 Conclusión: De los Datos a la Decisión
+
+Este proyecto demuestra que la Ciencia de Datos no es solo teoría abstracta, sino una herramienta práctica para la toma de decisiones cotidianas. Gracias a este pipeline:
+
+1.  **Eliminé la incertidumbre:** Ya no dependemos de la intuición para saber si un precio es justo.
+2.  **Identifiqué oportunidades reales:** El Dashboard de Power BI ha localizado activos en Barcelona con un descuento teórico significativo (chollos) basándose en las predicciones del modelo Random Forest.
+3.  **Validé un flujo End-to-End:** Desde la limpieza de datos crudos hasta la visualización ejecutiva, demostrando la capacidad de transformar *raw data* en *actionable insights*.
+
+Espero que mi amigo disfrute sus vacaciones!
+
+--- 
+
+*Autor:* José Ignacio Rubio
+
+*Contacto:* [https://www.linkedin.com/in/jos%C3%A9-ignacio-rubio-194471308/]
