@@ -79,3 +79,71 @@ CREATE TABLE public.listings_clean (
     has_parking integer     
 );
 ```
+
+## 🤖 4. Modelado Predictivo (Machine Learning)
+Se implementó un modelo de regresión supervisada utilizando el algoritmo **Random Forest** para predecir el precio por noche. Este algoritmo fue seleccionado por su capacidad para manejar relaciones no lineales y su robustez frente al sobreajuste (overfitting).
+
+### 🧠 Flujo de Trabajo (Pipeline)
+1.  **Preprocesamiento:**
+    * Eliminación de variables no predictivas (IDs, URLs).
+    * **One-Hot Encoding:** Transformación de variables categóricas (`neighbourhood`, `room_type`) en variables numéricas.
+    * **Filtrado de Outliers:** Se excluyeron propiedades con precios > 500€ para estabilizar el entrenamiento.
+2.  **Entrenamiento:**
+    * División del dataset: 80% Train / 20% Test.
+    * **Hyperparameter Tuning:** Optimización de parámetros (`n_estimators=300`, `max_depth=20`) mediante `RandomizedSearchCV` para reducir el error.
+3.  **Resultados:**
+    * El modelo generó el precio sugerido (`price_suggested`) y la diferencia porcentual (`price_diff`).
+    * **Métrica de Evaluación:** Se priorizó el **MAE (Error Absoluto Medio)** sobre el RMSE para obtener una interpretación directa en euros. Obtuvimos un valor de **18,86$**.
+  
+## 📊 5. Visualización Interactiva (Power BI)
+Se construyó un cuadro de mando ejecutivo (Dashboard) para traducir las predicciones del modelo en decisiones de inversión. El informe utiliza DAX (Data Analysis Expressions) para cálculos dinámicos y segmentación avanzada.
+
+### 📄 Estructura del Informe
+
+#### Página 1: Radar de Oportunidades
+Mapa geoespacial interactivo que destaca en verde los activos infravalorados (Chollos) y en rojo los sobrevalorados. Incluye KPIs de rentabilidad potencial como cantidad de pisos infravalorados y promedio de ahorro. 
+
+![informe1](https://github.com/Nachoide100/An-lisis-Airbnb/blob/64495816b5fb1861f93160b050cf3b52daf1b3cc/visualizations/Captura%20de%20pantalla%202026-02-11%20100144.png)
+
+#### Página 2: Drivers de Valor
+Análisis de qué factores influyen en el precio (Impacto de la distancia al centro, curva de capacidad y prima por equipamiento), además de una validación visual de la precisión de predicción del modelo. ini
+
+![informe2](https://github.com/Nachoide100/An-lisis-Airbnb/blob/64495816b5fb1861f93160b050cf3b52daf1b3cc/visualizations/Captura%20de%20pantalla%202026-02-11%20100154.png)
+
+#### 🧮 Métricas DAX Implementadas
+Se crearon medidas y columnas calculadas para enriquecer la visualización:
+
+**Nivel de Equipamiento:** clasifica los alojamientos en 4 niveles según la cantidad de "extras" detectados. 
+```dax
+Nivel_Equipamiento = 
+SWITCH(
+    TRUE(),
+    'listings_clean'[amenities_count] < 10, "1. Básico",
+    'listings_clean'[amenities_count] >= 10 && 'listings_clean'[amenities_count] < 20, "2. Estándar",
+    'listings_clean'[amenities_count] >= 20, "3. Premium",
+    "Desconocido"
+)
+```
+**Mean Absolute Error (MAE):** calcula el error promedio en euros entre el precio real y el predicho por nuestro modelo. 
+```dax
+MAE (Error Medio) = 
+AVERAGEX(
+    'listings_clean', 
+    ABS('listings_clean'[price] - 'listings_clean'[price_predecido])
+)
+```
+**Coeficiente de correlación de Pearson:** fórmula estadística para validad la linealidad entre la predicción y la realidad. 
+```dax
+Correlacion Pearson = 
+VAR MediaReal = AVERAGE('listings_clean'[price])
+VAR MediaPred = AVERAGE('listings_clean'[price_predecido])
+VAR Numerador = SUMX(
+    'listings_clean', 
+    ('listings_clean'[price] - MediaReal) * ('listings_clean'[price_predecido] - MediaPred)
+)
+VAR Denominador = SQRT(
+    SUMX('listings_clean', ('listings_clean'[price] - MediaReal)^2) * SUMX('listings_clean', ('listings_clean'[price_predecido] - MediaPred)^2)
+)
+RETURN
+DIVIDE(Numerador, Denominador)
+```
